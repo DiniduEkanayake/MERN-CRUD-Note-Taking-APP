@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const connectToDb = require("./config/connectToDb");
+const connectToDb = require("./config/connectToDB");
 const notesController = require("./controllers/notesController");
 const usersController = require("./controllers/usersController");
 const requireAuth = require("./middleware/requireAuth");
