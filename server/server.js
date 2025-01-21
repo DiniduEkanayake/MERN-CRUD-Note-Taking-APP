@@ -30,16 +30,16 @@ app.use(
 connectToDb();
 
 // Define routes
-app.post("/signup", usersController.signup);
-app.post("/login", usersController.login);
-app.get("/logout", usersController.logout);
-app.get("/check-auth", requireAuth, usersController.checkAuth);
+app.post("/api/signup", usersController.signup);
+app.post("/api/login", usersController.login);
+app.get("/api/logout", usersController.logout);
+app.get("/api/check-auth", requireAuth, usersController.checkAuth);
 
-app.get("/notes", requireAuth, notesController.fetchNotes);
-app.get("/notes/:id", requireAuth, notesController.fetchNote);
-app.post("/notes", requireAuth, notesController.createNote);
-app.put("/notes/:id", requireAuth, notesController.updateNote);
-app.delete("/notes/:id", requireAuth, notesController.deleteNote);
+app.get("/api/notes", requireAuth, notesController.fetchNotes);
+app.get("/api/notes/:id", requireAuth, notesController.fetchNote);
+app.post("/api/notes", requireAuth, notesController.createNote);
+app.put("/api/notes/:id", requireAuth, notesController.updateNote);
+app.delete("/api/notes/:id", requireAuth, notesController.deleteNote);
 
 // Start the server
 const PORT = process.env.PORT || 5000; // Default to 5000 if PORT is not set
