@@ -30,7 +30,7 @@ app.use(
 connectToDb();
 
 // Define routes
-app.post("/api/signup", usersController.signup);
+app.post("api/signup", usersController.signup);
 app.post("/api/login", usersController.login);
 app.get("/api/logout", usersController.logout);
 app.get("/api/check-auth", requireAuth, usersController.checkAuth);
