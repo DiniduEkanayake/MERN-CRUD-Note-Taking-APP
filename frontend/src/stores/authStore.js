@@ -1,6 +1,9 @@
 import create from "zustand";
 import axios from "axios";
 
+// Base URL for backend API
+const API_BASE_URL = "http://192.168.80.128/api";
+
 const authStore = create((set) => ({
   loggedIn: null,
 
@@ -15,7 +18,6 @@ const authStore = create((set) => ({
 
   updateLoginForm: (e) => {
     const { name, value } = e.target;
-
     set((state) => ({
       loginForm: {
         ...state.loginForm,
@@ -26,7 +28,6 @@ const authStore = create((set) => ({
 
   updateSignupForm: (e) => {
     const { name, value } = e.target;
-
     set((state) => ({
       signupForm: {
         ...state.signupForm,
@@ -36,22 +37,29 @@ const authStore = create((set) => ({
   },
 
   login: async () => {
-    const { loginForm } = authStore.getState();
+    try {
+      const { loginForm } = authStore.getState();
+      const res = await axios.post(`${API_BASE_URL}/login`, loginForm, {
+        withCredentials: true,
+      });
 
-    const res = await axios.post("/login", loginForm);
-    set({ 
+      set({
         loggedIn: true,
         loginForm: {
           email: "",
           password: "",
         },
-  
-    });
+      });
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   },
 
   checkAuth: async () => {
     try {
-      const res = await axios.get("/check_auth");
+      const res = await axios.get(`${API_BASE_URL}/check-auth`, {
+        withCredentials: true,
+      });
       console.log("Auth check successful:", res);
       set({ loggedIn: true });
     } catch (error) {
@@ -61,21 +69,29 @@ const authStore = create((set) => ({
   },
 
   signup: async () => {
-    const { signupForm } = authStore.getState();
+    try {
+      const { signupForm } = authStore.getState();
+      const res = await axios.post(`${API_BASE_URL}/signup`, signupForm, {
+        withCredentials: true,
+      });
 
-    const res = await axios.post("/signup", signupForm);
-    set({
+      set({
         signupForm: {
           email: "",
           password: "",
         },
       });
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
   },
 
   logout: async () => {
-    await axios.get("/logout");
-    set({ loggedIn: false });
+    try {
+      await axios.get(`${API_BASE_URL}/logout`, { withCredentials: true });
+      set({ loggedIn: false });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   },
 }));
-
-export default authStore;
